@@ -26,7 +26,7 @@ const projects: Project[] = [
     src: "/banner/gitlore.png",
     alt: "GitLore — repository intelligence platform with a VS Code extension surface",
     tag: "Dev tool · RAG · Web + VS Code",
-    href: "/case-studies/gitlore",
+    href: "https://www.gitlore.app/",
     baseRotate: -1,
     drift: 60,
     driftDir: -1,
@@ -36,7 +36,7 @@ const projects: Project[] = [
     src: "/banner/dupermemory.png",
     alt: "DuperMemory — Chrome extension routing across five AI models",
     tag: "Chrome ext · Multi-AI orchestration",
-    href: "/case-studies/dupermemory",
+    href: "https://dupermemory.vercel.app/",
     baseRotate: 1,
     drift: 90,
     driftDir: -1,
@@ -46,7 +46,7 @@ const projects: Project[] = [
     src: "/banner/grindflow.png",
     alt: "GrindFlow — focus and productivity platform",
     tag: "Web · Productivity · Flow state",
-    href: "/case-studies/grindflow",
+    href: "https://grindflow.vercel.app/",
     baseRotate: -1,
     drift: 70,
     driftDir: -1,
@@ -154,7 +154,12 @@ export default function Home() {
 
 function ProjectCard({ project }: { project: Project }) {
   return (
-    <Link href={project.href} className="group block">
+    <a
+      href={project.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group block"
+    >
       <Sticker
         rotate={project.baseRotate}
         tilt={5}
@@ -174,6 +179,6 @@ function ProjectCard({ project }: { project: Project }) {
       <p className="mt-5 text-center font-mono text-[11px] uppercase tracking-widest text-coral transition-colors group-hover:text-coral-soft">
         {project.tag}
       </p>
-    </Link>
+    </a>
   );
 }

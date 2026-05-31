@@ -11,6 +11,7 @@ import {
 import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import ScrollProgress from "@/components/ScrollProgress";
+import ClickBurst from "@/components/ClickBurst";
 
 // Body / UI typeface
 const dmSans = DM_Sans({
@@ -67,7 +68,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Tushar Kaushik — Product Developer & AI Systems Engineer",
+  title: "Tushar Kaushik",
   description:
     "Portfolio of Tushar Kaushik showcasing AI systems, developer tooling, full stack engineering, and production-grade web applications.",
 };
@@ -87,6 +88,7 @@ export default function RootLayout({
           <ScrollProgress />
           {children}
         </SmoothScrollProvider>
+        <ClickBurst />
       </body>
     </html>
   );

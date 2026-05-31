@@ -2,7 +2,7 @@ import Reveal from "./Reveal";
 
 const socials = [
   { label: "Email",    href: "mailto:k.tushar1106@gmail.com" },
-  { label: "LinkedIn", href: "https://linkedin.com/in/tushar1106" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/tushar1106/" },
   { label: "GitHub",   href: "https://github.com/TusharKaushik1106" },
 ];
 
@@ -34,11 +34,8 @@ export default function Footer() {
                 shortest path to a reply is email.
               </p>
             </div>
-            {/* address + stamp half */}
+            {/* address half */}
             <div className="relative flex flex-col justify-between p-7">
-              <div className="absolute right-6 top-6 grid size-16 place-items-center rounded-sm border-2 border-dashed border-coral/60 bg-coral/10 text-center font-display text-2xl leading-none text-coral">
-                TK
-              </div>
               <ul className="mt-2 space-y-2">
                 {socials.map((s) => (
                   <li key={s.label}>

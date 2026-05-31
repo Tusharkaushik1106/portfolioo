@@ -4,11 +4,28 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, type Variants } from "motion/react";
 
-const links = [
+type Social = { name: string; href: string; icon: string };
+type NavLink = {
+  href: string;
+  label: string;
+  avatar: string;
+  socials?: Social[];
+};
+
+const links: NavLink[] = [
   { href: "/about", label: "about", avatar: "/avatars/ava-about.png" },
   { href: "/work", label: "Work", avatar: "/avatars/ava-work.png" },
   { href: "/blogs", label: "blogs", avatar: "/avatars/ava-blogs.png" },
-  { href: "#connect", label: "Connect", avatar: "/avatars/ava-connect.png" },
+  {
+    href: "/connect",
+    label: "Connect",
+    avatar: "/avatars/ava-connect.png",
+    socials: [
+      { name: "Email", href: "mailto:k.tushar1106@gmail.com", icon: "/socials/email.png" },
+      { name: "GitHub", href: "https://github.com/Tusharkaushik1106", icon: "/socials/github.png" },
+      { name: "LinkedIn", href: "https://www.linkedin.com/in/tushar1106/", icon: "/socials/linkedin.png" },
+    ],
+  },
 ];
 
 const containerVariants: Variants = {
@@ -56,6 +73,27 @@ const avatarVariants: Variants = {
     y: 0,
     rotate: 0,
     transition: { type: "spring", stiffness: 420, damping: 16 },
+  },
+};
+
+// Connect popup: row of social icons flanking the avatar, staggered in on hover
+const socialPopVariants: Variants = {
+  rest: {
+    pointerEvents: "none",
+    transition: { staggerChildren: 0.03, staggerDirection: -1 },
+  },
+  hover: {
+    pointerEvents: "auto",
+    transition: { staggerChildren: 0.05, delayChildren: 0.04 },
+  },
+};
+const popItemVariants: Variants = {
+  rest: { opacity: 0, scale: 0.3, y: 14 },
+  hover: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { type: "spring", stiffness: 460, damping: 17 },
   },
 };
 
@@ -117,17 +155,39 @@ export default function Nav() {
             whileHover="hover"
             className="relative"
           >
-            {/* avatar pops up above the item on hover */}
-            <div className="pointer-events-none absolute -top-[3.6rem] left-1/2 -translate-x-1/2">
-              <motion.img
-                // eslint-disable-next-line @next/next/no-img-element
-                src={l.avatar}
-                alt=""
-                aria-hidden
-                variants={avatarVariants}
-                className="h-auto w-14 max-w-none drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]"
-              />
-            </div>
+            {/* hover popup: avatar (+ social links flanking it, for Connect) */}
+            {l.socials ? (
+              <motion.div
+                variants={socialPopVariants}
+                className="absolute bottom-full left-1/2 flex -translate-x-1/2 items-end gap-2 pb-3"
+              >
+                {l.socials.slice(0, 2).map((s) => (
+                  <SocialIcon key={s.name} s={s} />
+                ))}
+                <motion.img
+                  // eslint-disable-next-line @next/next/no-img-element
+                  src={l.avatar}
+                  alt=""
+                  aria-hidden
+                  variants={avatarVariants}
+                  className="h-auto w-14 max-w-none drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]"
+                />
+                {l.socials.slice(2).map((s) => (
+                  <SocialIcon key={s.name} s={s} />
+                ))}
+              </motion.div>
+            ) : (
+              <div className="pointer-events-none absolute -top-[3.6rem] left-1/2 -translate-x-1/2">
+                <motion.img
+                  // eslint-disable-next-line @next/next/no-img-element
+                  src={l.avatar}
+                  alt=""
+                  aria-hidden
+                  variants={avatarVariants}
+                  className="h-auto w-14 max-w-none drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]"
+                />
+              </div>
+            )}
 
             <Link href={l.href}>
               <motion.span
@@ -151,5 +211,26 @@ export default function Nav() {
         })}
       </nav>
     </motion.header>
+  );
+}
+
+function SocialIcon({ s }: { s: Social }) {
+  return (
+    <motion.a
+      href={s.href}
+      target={s.href.startsWith("mailto:") ? undefined : "_blank"}
+      rel="noopener noreferrer"
+      aria-label={s.name}
+      variants={popItemVariants}
+      className="block"
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={s.icon}
+        alt=""
+        aria-hidden
+        className="h-9 w-9 max-w-none drop-shadow-[0_3px_8px_rgba(0,0,0,0.5)] transition-transform hover:scale-110"
+      />
+    </motion.a>
   );
 }

@@ -88,23 +88,64 @@ export default function Work() {
       {/* ---- Side Quests --------------------------------------------- */}
       <section className="pb-24">
         <Reveal>
-          <h2 className="mb-10 text-center font-serif text-4xl text-paper">
-            Side Quests
-          </h2>
+          <div className="relative mx-auto mb-10 w-fit">
+            {/* quest-themed doodles around the title */}
+            <Image
+              src="/graphics/g-dagger.png"
+              alt=""
+              aria-hidden
+              width={203}
+              height={211}
+              style={{ filter: "url(#luma-key)" }}
+              className="pointer-events-none absolute -left-16 top-1/2 hidden w-16 -translate-y-1/2 -rotate-[18deg] opacity-90 sm:block lg:-left-24 lg:w-24"
+            />
+            <Image
+              src="/graphics/g-potion.png"
+              alt=""
+              aria-hidden
+              width={201}
+              height={192}
+              style={{ filter: "url(#luma-key)" }}
+              className="pointer-events-none absolute -right-16 top-1/2 hidden w-16 -translate-y-1/2 rotate-[14deg] opacity-90 sm:block lg:-right-24 lg:w-24"
+            />
+            <Image
+              src="/graphics/g-book.png"
+              alt=""
+              aria-hidden
+              width={196}
+              height={192}
+              style={{ filter: "url(#luma-key)" }}
+              className="pointer-events-none absolute -top-10 left-2 hidden w-12 -rotate-[10deg] opacity-80 lg:block"
+            />
+            <Image
+              src="/graphics/g-key.png"
+              alt=""
+              aria-hidden
+              width={190}
+              height={184}
+              style={{ filter: "url(#luma-key)" }}
+              className="pointer-events-none absolute -bottom-8 right-4 hidden w-12 rotate-[12deg] opacity-80 lg:block"
+            />
+
+            <h2 className="relative text-center font-editorial leading-none text-[#F5E1CD] text-[52px] sm:text-[80px] lg:text-[104px]">
+              Side Quests
+            </h2>
+          </div>
         </Reveal>
         <Reveal>
           <Sticker
             tilt={3}
             lift={4}
             style={{ boxShadow: "none" }}
-            className="mx-auto block w-full max-w-2xl"
+            className="mx-auto block w-full max-w-4xl"
           >
             <Image
-              src="/sideprojects/sidequests.png"
+              src="/sideprojects/enchanced.png"
               alt="Side projects — Sikkim Heritage, ClipMuxd, AuraReader, Intervue, Sweep"
-              width={1023}
-              height={1537}
-              quality={95}
+              width={1363}
+              height={2048}
+              quality={100}
+              unoptimized
               sizes="(min-width: 768px) 672px, 92vw"
               className="h-auto w-full drop-shadow-[0_18px_36px_rgba(0,0,0,0.5)]"
             />

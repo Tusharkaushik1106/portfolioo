@@ -17,6 +17,9 @@ const ICONS = [
   "/icons/stamp-3.png",
   "/icons/stamp-4.png",
   "/icons/stamp-5.png",
+  "/icons/stamp-6.png",
+  "/icons/stamp-7.png",
+  "/icons/stamp-8.png",
 ];
 
 // tile (h-14 = 56px) + column gap (10px). Used to compute how many tiles fill.
