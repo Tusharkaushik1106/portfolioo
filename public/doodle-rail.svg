@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="392" viewBox="0 0 56 392" fill="none">
+  <g stroke="#e35342" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.85">
+    <!-- star -->
+    <path d="M28 10l4 9 9 1-6.5 6 2 9-8.5-4.6L19.5 50l2-9-6.5-6 9-1z" transform="translate(0,2) scale(0.9)"/>
+    <!-- paper plane -->
+    <path d="M14 78l28-10-12 26-4-10z"/>
+    <path d="M30 84l-4 10"/>
+    <!-- leaf sprig -->
+    <path d="M28 120c-8 6-8 18 0 26 8-8 8-20 0-26z"/>
+    <path d="M28 126v18"/>
+    <!-- heart -->
+    <path d="M28 196c-6-8-16-4-16 4 0 7 9 12 16 18 7-6 16-11 16-18 0-8-10-12-16-4z"/>
+    <!-- compass -->
+    <circle cx="28" cy="262" r="13"/>
+    <path d="M28 252l4 14-10-6z"/>
+    <!-- camera -->
+    <rect x="14" y="312" width="28" height="20" rx="3"/>
+    <circle cx="28" cy="322" r="6"/>
+    <path d="M20 312l3-5h10l3 5"/>
+    <!-- squiggle -->
+    <path d="M14 368c5-6 9 6 14 0s9 6 14 0"/>
+  </g>
+</svg>

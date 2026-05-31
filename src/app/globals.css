@@ -1,26 +1,384 @@
 @import "tailwindcss";
 
+/* ===========================================================================
+   Design tokens — recreated from the scrapbook / travel-journal aesthetic.
+   Palette: warm charcoal ink, coral accent, cream paper, small blue/green pops.
+   =========================================================================== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ink: #212121; /* page background — matched from reference */
+  --ink-warm: #1a0f04;
+  --coral: #e35342; /* exact coral — rgb(227,83,66) */
+  --coral-soft: #f86c69; /* lighter coral used on case studies */
+  --paper: #f2e3cf; /* cream paper — rgb(242,227,207) */
+  --paper-light: #f5ece3;
+  --paper-white: #fffbf5;
+  --blue: #2754a9; /* deep editorial blue used on case study */
+  --green: #83b918;
+  --muted: #d4c8bc;
+  --grid-line: rgba(227, 83, 66, 0.22); /* coral graph lines on paper */
+  --rule-line: rgba(53, 99, 168, 0.18); /* notebook horizontal rules */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* colors */
+  --color-ink: var(--ink);
+  --color-ink-warm: var(--ink-warm);
+  --color-coral: var(--coral);
+  --color-coral-soft: var(--coral-soft);
+  --color-paper: var(--paper);
+  --color-paper-light: var(--paper-light);
+  --color-paper-white: var(--paper-white);
+  --color-blue: var(--blue);
+  --color-green: var(--green);
+  --color-muted: var(--muted);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* fonts (wired to next/font CSS variables in layout.tsx) */
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-serif: var(--font-serif);
+  --font-hand: var(--font-hand);
+  --font-display: var(--font-display);
+  --font-script: var(--font-script);
+  --font-editorial: var(--font-editorial);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  /* Custom OS cursor — falls back to the system arrow on browsers that
+     don't accept .cur files (Firefox, Safari). */
+  cursor: url("/cursor/cur492.cur"), auto;
+}
+/* Use the same cursor on interactive elements so the browser doesn't switch
+   back to the system hand/pointer when hovering links/buttons. */
+a,
+button,
+[role="button"],
+.cursor-pointer {
+  cursor: url("/cursor/cur492.cur"), pointer;
+}
+
+/* ===========================================================================
+   Scrapbook primitives
+   =========================================================================== */
+
+/* Subtle paper grain layered onto cream surfaces */
+.paper {
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(rgba(0, 0, 0, 0.025) 1px, transparent 1px);
+  background-size: 4px 4px;
+  color: var(--ink);
+}
+
+/* Lined notebook page (horizontal rule lines + faint left margin) */
+.notebook {
+  background-color: var(--paper-light);
+  background-image:
+    repeating-linear-gradient(
+      transparent,
+      transparent 31px,
+      var(--rule-line) 31px,
+      var(--rule-line) 32px
+    );
+  color: var(--ink);
+}
+.notebook-margin::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 48px;
+  width: 1px;
+  background: rgba(227, 83, 66, 0.55);
+}
+
+/* Coral graph-paper grid — matches the about page reference */
+.graph {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 26px 26px;
+  color: var(--ink);
+}
+
+/* Torn / spiral top edge for a notebook sheet (the dotted ring holes) */
+.spiral-top {
+  position: relative;
+}
+.spiral-top::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 24px;
+  right: 24px;
+  height: 14px;
+  background-image: radial-gradient(
+    circle at 8px 7px,
+    var(--ink) 4px,
+    transparent 5px
+  );
+  background-size: 30px 14px;
+  background-repeat: repeat-x;
+  z-index: 2;
+}
+/* Torn paper top edge — irregular zig-zag above the spiral */
+.torn-top::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background: var(--paper-light);
+  clip-path: polygon(
+    0 0, 4% 100%, 8% 30%, 12% 90%, 16% 40%, 20% 95%, 24% 25%,
+    28% 85%, 32% 35%, 36% 100%, 40% 30%, 44% 90%, 48% 45%,
+    52% 100%, 56% 35%, 60% 92%, 64% 30%, 68% 88%, 72% 40%,
+    76% 96%, 80% 32%, 84% 90%, 88% 35%, 92% 95%, 96% 30%, 100% 100%, 100% 0
+  );
+}
+
+/* Card / sticker base with a soft drop shadow and slight lift */
+.sticker {
+  border-radius: 6px;
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.18),
+    0 12px 28px -10px rgba(0, 0, 0, 0.55);
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.sticker:hover {
+  transform: translateY(-6px) rotate(0deg) scale(1.015);
+  box-shadow:
+    0 2px 2px rgba(0, 0, 0, 0.2),
+    0 26px 50px -12px rgba(0, 0, 0, 0.65);
+}
+
+/* Tape strip you can drop onto a card corner */
+.tape {
+  position: absolute;
+  width: 86px;
+  height: 26px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.05)),
+    rgba(242, 227, 207, 0.55);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(1px);
+}
+
+/* Classic polaroid frame */
+.polaroid {
+  background: var(--paper-white);
+  padding: 10px 10px 14px;
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.18),
+    0 18px 36px -14px rgba(0, 0, 0, 0.55);
+}
+
+/* Punch-hole used on luggage tags */
+.tag-hole {
+  position: relative;
+}
+.tag-hole::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: transparent;
+  transform: translateX(-50%);
+}
+
+/* "Stringy" rotated tail used on luggage tags */
+.tag-string {
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  width: 2px;
+  height: 56px;
+  background: var(--paper-white);
+  transform-origin: top center;
+  transform: translateX(-50%) rotate(28deg);
+  opacity: 0.85;
+}
+
+/* Vertical doodle border rails (left/right of the page).
+   Repeating SVG glyph row stands in for the original hand-drawn icons. */
+.doodle-rail {
+  background-image: url("/doodle-rail.svg");
+  background-repeat: repeat-y;
+  background-size: 56px auto;
+}
+
+/* Dashed "perforation" line for tickets */
+.perf {
+  background-image: radial-gradient(
+    circle,
+    transparent 4px,
+    currentColor 4px,
+    currentColor 5px,
+    transparent 5px
+  );
+  background-size: 14px 14px;
+  background-repeat: repeat-y;
+  background-position: center;
+}
+
+/* Reusable font helpers */
+.font-mono { font-family: var(--font-mono), monospace; }
+.font-serif { font-family: var(--font-serif), serif; }
+.font-hand { font-family: var(--font-hand), cursive; }
+.font-display { font-family: var(--font-display), sans-serif; }
+.font-script { font-family: var(--font-script), cursive; }
+.font-editorial { font-family: var(--font-editorial), Georgia, serif; }
+
+/* ===========================================================================
+   Scroll storyline — an SVG "red thread" that draws down the page as you
+   scroll, weaving between marked section heads with numbered markers and a
+   glowing coral pulse riding the leading edge. (see StoryLine.tsx)
+   =========================================================================== */
+.page {
+  position: relative;
+}
+.story-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0; /* behind the content (main is z-10) so cards sit on top */
+  overflow: visible;
+}
+.story-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* faint dotted coral guide path (the "not yet reached" track) */
+#story-bg {
+  fill: none;
+  stroke: var(--coral);
+  stroke-width: 2;
+  stroke-dasharray: 2 11;
+  stroke-linecap: round;
+  opacity: 0.2;
+}
+/* the drawn-in coral thread with a soft glow */
+#story-fg {
+  fill: none;
+  stroke: var(--coral);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.92;
+  filter: drop-shadow(0 0 5px rgba(227, 83, 66, 0.45));
+}
+/* glowing bead riding the leading edge — gently breathes */
+#story-pulse {
+  fill: var(--coral);
+  stroke: var(--paper-white);
+  stroke-width: 2.5;
+  r: 7;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  filter: drop-shadow(0 0 11px rgba(227, 83, 66, 0.95));
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: story-pulse-breathe 1.7s ease-in-out infinite;
+}
+@keyframes story-pulse-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+/* numbered markers styled as little stitched scrapbook tags */
+.story-marker__rect {
+  fill: var(--paper-white);
+  stroke: var(--coral);
+  stroke-width: 2.2;
+  rx: 11px;
+  stroke-dasharray: 5 3.5; /* dashed = hand-stitched edge */
+  transition:
+    fill 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    filter 0.4s ease;
+  transform-origin: center;
+  transform-box: fill-box;
+  filter: drop-shadow(0 4px 7px rgba(0, 0, 0, 0.45));
+}
+.story-marker__num {
+  font-family: var(--font-display), sans-serif;
+  fill: var(--coral);
+  transition: fill 0.4s ease;
+}
+/* chapter label in the hand font with a dark outline so it reads anywhere */
+.story-marker__label {
+  font-family: var(--font-hand), cursive;
+  fill: var(--paper-white);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  paint-order: stroke;
+  stroke: rgba(26, 15, 4, 0.9);
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
+}
+/* reached: the tag fills coral, edge goes solid, and it glows */
+.story-marker.is-active .story-marker__rect {
+  fill: var(--coral);
+  stroke: var(--coral-soft);
+  stroke-dasharray: 0;
+  filter: drop-shadow(0 0 10px rgba(227, 83, 66, 0.75))
+    drop-shadow(0 4px 7px rgba(0, 0, 0, 0.45));
+  animation: marker-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.story-marker.is-active .story-marker__num {
+  fill: var(--paper-white);
+}
+.story-marker.is-active .story-marker__label {
+  opacity: 0.96;
+}
+
+@keyframes marker-pop {
+  0% {
+    transform: scale(0.7) rotate(-6deg);
+  }
+  60% {
+    transform: scale(1.15) rotate(2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@media (max-width: 720px) {
+  .story-wrap {
+    display: none;
+  }
+}
+
+/* Reveal-on-scroll (progressive enhancement; visible by default if no JS) */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
 }

@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# secrets — contains API key, do not publish
+.mcp.json
+
+# reference-only material (extracted from jackiezhang.co.za for study, not for redistribution)
+/public/jackie-zhang/
+/videos/
+/public/index.html
+/public/style.css
