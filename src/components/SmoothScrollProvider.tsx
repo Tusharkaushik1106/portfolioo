@@ -1,31 +1,36 @@
 "use client";
 
 import Lenis from "lenis";
+import { cancelFrame, frame } from "motion/react";
 import { useEffect, type ReactNode } from "react";
 
 /**
- * Drives a Lenis smooth-scroll instance from a single RAF loop. All scroll
- * positions read by motion's useScroll continue to work because Lenis
- * still writes to document.scrollingElement.scrollTop.
+ * Smooth scroll driven by Lenis, but stepped from Framer Motion's single frame
+ * loop (instead of its own RAF). This keeps Lenis's smoothed scroll position and
+ * every motion `useScroll`/`useTransform` value updating in the SAME tick — no
+ * one-frame desync, so scroll-linked animation stays jitter-free and buttery.
  */
 export default function SmoothScrollProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return; // honour reduced-motion — native scroll, no smoothing
+
     const lenis = new Lenis({
-      lerp: 0.09,        // 0–1; lower = smoother, higher = snappier
-      wheelMultiplier: 1,
-      touchMultiplier: 1.4,
+      lerp: 0.1, // smoothing factor — lower = silkier, higher = snappier
       smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 1.5,
+      syncTouch: true, // smoother momentum on trackpads / touch
     });
 
-    let raf = 0;
-    const tick = (time: number) => {
-      lenis.raf(time);
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
+    // step Lenis from Motion's frameloop (shared RAF) every frame
+    const update = (data: { timestamp: number }) => lenis.raf(data.timestamp);
+    frame.update(update, true);
 
     return () => {
-      cancelAnimationFrame(raf);
+      cancelFrame(update);
       lenis.destroy();
     };
   }, []);

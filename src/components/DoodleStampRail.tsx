@@ -90,7 +90,7 @@ function Rail({ side }: { side: "left" | "right" }) {
       }`}
     >
       {/* the column is taller than the rail and drifts within the clip window */}
-      <motion.div style={{ y, marginTop: -DRIFT }}>
+      <motion.div style={{ y, marginTop: -DRIFT, willChange: "transform" }}>
         <Column count={count} />
       </motion.div>
     </div>

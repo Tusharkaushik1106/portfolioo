@@ -164,25 +164,6 @@ function PaperTexture() {
         <rect width="100%" height="100%" filter="url(#paper-grain)" />
       </svg>
 
-      {/* coarse fibre / uneven inking blotches */}
-      <svg
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-20 h-full w-full mix-blend-overlay"
-        style={{ opacity: 0.06 }}
-      >
-        <filter id="paper-fibre">
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency="0.012 0.16"
-            numOctaves="3"
-            seed="7"
-            stitchTiles="stitch"
-          />
-          <feColorMatrix type="saturate" values="0" />
-        </filter>
-        <rect width="100%" height="100%" filter="url(#paper-fibre)" />
-      </svg>
-
       {/* vignette + edge wear for depth */}
       <div
         aria-hidden

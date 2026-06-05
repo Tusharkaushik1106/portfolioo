@@ -52,7 +52,7 @@ export default function FloatIn({
   return (
     <motion.div
       ref={ref}
-      style={{ opacity, x, y, scale, rotate: rotateZ }}
+      style={{ opacity, x, y, scale, rotate: rotateZ, willChange: "transform, opacity" }}
       className={className}
     >
       {children}

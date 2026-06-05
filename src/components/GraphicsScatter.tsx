@@ -32,25 +32,6 @@ const ITEMS: Item[] = [
 export default function GraphicsScatter() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 z-0 hidden lg:block">
-      {/* luminance key: brightness -> alpha, so the dark PNG backing drops out
-          and only the cream linework remains (no visible box). */}
-      <svg width="0" height="0" className="absolute">
-        <defs>
-          <filter id="luma-key" colorInterpolationFilters="sRGB">
-            <feColorMatrix
-              type="matrix"
-              values="1 0 0 0 0
-                      0 1 0 0 0
-                      0 0 1 0 0
-                      0.34 0.34 0.34 0 0"
-            />
-            <feComponentTransfer>
-              <feFuncA type="linear" slope="3.2" intercept="-0.55" />
-            </feComponentTransfer>
-          </filter>
-        </defs>
-      </svg>
-
       {ITEMS.map((it, i) => (
         <motion.img
           // eslint-disable-next-line @next/next/no-img-element
@@ -64,7 +45,6 @@ export default function GraphicsScatter() {
             [it.side]: "clamp(8px, 4vw, 70px)",
             width: it.size,
             height: "auto",
-            filter: "url(#luma-key)",
           }}
           className="absolute opacity-80"
           initial={{ opacity: 0, y: 24, rotate: it.rotate - 6, scale: 0.85 }}

@@ -96,7 +96,6 @@ export default function Work() {
               aria-hidden
               width={203}
               height={211}
-              style={{ filter: "url(#luma-key)" }}
               className="pointer-events-none absolute -left-16 top-1/2 hidden w-16 -translate-y-1/2 -rotate-[18deg] opacity-90 sm:block lg:-left-24 lg:w-24"
             />
             <Image
@@ -105,7 +104,6 @@ export default function Work() {
               aria-hidden
               width={201}
               height={192}
-              style={{ filter: "url(#luma-key)" }}
               className="pointer-events-none absolute -right-16 top-1/2 hidden w-16 -translate-y-1/2 rotate-[14deg] opacity-90 sm:block lg:-right-24 lg:w-24"
             />
             <Image
@@ -114,7 +112,6 @@ export default function Work() {
               aria-hidden
               width={196}
               height={192}
-              style={{ filter: "url(#luma-key)" }}
               className="pointer-events-none absolute -top-10 left-2 hidden w-12 -rotate-[10deg] opacity-80 lg:block"
             />
             <Image
@@ -123,7 +120,6 @@ export default function Work() {
               aria-hidden
               width={190}
               height={184}
-              style={{ filter: "url(#luma-key)" }}
               className="pointer-events-none absolute -bottom-8 right-4 hidden w-12 rotate-[12deg] opacity-80 lg:block"
             />
 

@@ -261,7 +261,7 @@ function Tape({ kind }: { kind: TapeKind }) {
   return (
     <span
       aria-hidden
-      className={`pointer-events-none absolute -top-2.5 z-20 h-5 w-16 shadow-sm backdrop-blur-[1px] ${place[kind]}`}
+      className={`pointer-events-none absolute -top-2.5 z-20 h-5 w-16 shadow-sm ${place[kind]}`}
     />
   );
 }
@@ -279,7 +279,7 @@ function PageTape({ className = "" }: { className?: string }) {
   return (
     <span
       aria-hidden
-      className={`pointer-events-none absolute z-20 h-7 w-24 bg-paper-white/45 shadow-sm backdrop-blur-[1px] ${className}`}
+      className={`pointer-events-none absolute z-20 h-7 w-24 bg-paper-white/45 shadow-sm ${className}`}
     />
   );
 }

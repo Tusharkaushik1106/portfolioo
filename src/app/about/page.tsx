@@ -314,7 +314,7 @@ function WashiTape({ className = "" }: { className?: string }) {
   return (
     <span
       aria-hidden
-      className={`absolute z-20 h-7 w-24 backdrop-blur-[1px] ${className}`}
+      className={`absolute z-20 h-7 w-24 ${className}`}
       style={{
         background:
           "repeating-linear-gradient(45deg, rgba(227,83,66,0.45) 0 6px, rgba(242,227,207,0.5) 6px 12px)",

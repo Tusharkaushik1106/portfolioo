@@ -293,17 +293,17 @@ button,
   stroke-linecap: round;
   opacity: 0.2;
 }
-/* the drawn-in coral thread with a soft glow */
+/* the drawn-in coral thread (no filter — a full-page drop-shadow re-rasterised
+   on every scroll frame, which tanked scroll perf) */
 #story-fg {
   fill: none;
   stroke: var(--coral);
   stroke-width: 3.5;
   stroke-linecap: round;
   stroke-linejoin: round;
-  opacity: 0.92;
-  filter: drop-shadow(0 0 5px rgba(227, 83, 66, 0.45));
+  opacity: 0.95;
 }
-/* glowing bead riding the leading edge — gently breathes */
+/* glowing bead riding the leading edge */
 #story-pulse {
   fill: var(--coral);
   stroke: var(--paper-white);
@@ -311,19 +311,6 @@ button,
   r: 7;
   opacity: 0;
   transition: opacity 0.25s ease;
-  filter: drop-shadow(0 0 11px rgba(227, 83, 66, 0.95));
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: story-pulse-breathe 1.7s ease-in-out infinite;
-}
-@keyframes story-pulse-breathe {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
 }
 
 /* numbered markers styled as little stitched scrapbook tags */
