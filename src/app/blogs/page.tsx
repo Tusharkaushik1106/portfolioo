@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { createReader } from "@keystatic/core/reader";
 import keystaticConfig from "../../../keystatic.config";
 import SiteFrame from "@/components/SiteFrame";
@@ -65,8 +66,19 @@ export default async function Blogs() {
                     rotate={i % 2 === 0 ? -1.5 : 1.5}
                     tilt={8}
                     lift={10}
-                    className="paper flex h-full flex-col p-6"
+                    className="paper flex h-full flex-col overflow-hidden p-6"
                   >
+                    {p.entry.coverImage ? (
+                      <div className="relative -mx-6 -mt-6 mb-4 aspect-[16/10] overflow-hidden bg-ink/10">
+                        <Image
+                          src={p.entry.coverImage}
+                          alt=""
+                          fill
+                          sizes="(min-width: 640px) 300px, 90vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                        />
+                      </div>
+                    ) : null}
                     {p.entry.tag ? (
                       <span className="mb-4 inline-block w-fit rounded-full bg-coral/15 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wide text-coral">
                         {p.entry.tag}

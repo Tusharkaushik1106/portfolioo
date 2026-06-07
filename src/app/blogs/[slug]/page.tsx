@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { createReader } from "@keystatic/core/reader";
 import { DocumentRenderer } from "@keystatic/core/renderer";
@@ -59,6 +60,21 @@ export default async function Post({
             {fmtDate(post.publishedDate)}
           </p>
         </Reveal>
+
+        {post.coverImage ? (
+          <Reveal>
+            <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-xl bg-ink/20 shadow-2xl ring-1 ring-paper/10">
+              <Image
+                src={post.coverImage}
+                alt={post.title}
+                fill
+                priority
+                sizes="(min-width: 768px) 672px, 100vw"
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
+        ) : null}
 
         <Reveal>
           <div className="prose-paper mt-10">
