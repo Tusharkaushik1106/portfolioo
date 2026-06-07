@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 /**
@@ -23,8 +24,11 @@ const rand = (a: number, b: number) => {
 
 export default function ClickBurst() {
   const [bursts, setBursts] = useState<Burst[]>([]);
+  const pathname = usePathname();
+  const disabled = pathname?.startsWith("/keystatic");
 
   useEffect(() => {
+    if (disabled) return;
     const onDown = (e: PointerEvent) => {
       const id = ++counter;
       setBursts((b) => [...b, { id, x: e.clientX, y: e.clientY }]);
@@ -35,7 +39,9 @@ export default function ClickBurst() {
     };
     window.addEventListener("pointerdown", onDown, { passive: true });
     return () => window.removeEventListener("pointerdown", onDown);
-  }, []);
+  }, [disabled]);
+
+  if (disabled) return null;
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden">

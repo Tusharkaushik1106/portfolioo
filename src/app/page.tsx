@@ -1,6 +1,8 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { createReader } from "@keystatic/core/reader";
+import keystaticConfig from "../../keystatic.config";
 import SiteFrame from "@/components/SiteFrame";
 import Reveal from "@/components/Reveal";
 import Sticker from "@/components/Sticker";
@@ -9,52 +11,41 @@ import MementoBoard from "@/components/MementoBoard";
 import FloatIn from "@/components/FloatIn";
 import SceneBreak from "@/components/SceneBreak";
 
+const reader = createReader(process.cwd(), keystaticConfig);
+
+export const revalidate = 3600;
+
 type Project = {
-  /** banner image in /public/banner/ — already includes title, label, frame */
   src: string;
   alt: string;
   tag: string;
   href: string;
   baseRotate: number;
-  drift: number;
-  driftDir: -1 | 1;
-  from: "left" | "right" | "bottom";
+  from: "left" | "right";
 };
 
-const projects: Project[] = [
-  {
-    src: "/banner/gitlore.png",
-    alt: "GitLore — repository intelligence platform with a VS Code extension surface",
-    tag: "Dev tool · RAG · Web + VS Code",
-    href: "https://www.gitlore.app/",
-    baseRotate: -1,
-    drift: 60,
-    driftDir: -1,
-    from: "left",
-  },
-  {
-    src: "/banner/dupermemory.png",
-    alt: "DuperMemory — Chrome extension routing across five AI models",
-    tag: "Chrome ext · Multi-AI orchestration",
-    href: "https://dupermemory.vercel.app/",
-    baseRotate: 1,
-    drift: 90,
-    driftDir: -1,
-    from: "right",
-  },
-  {
-    src: "/banner/grindflow.png",
-    alt: "GrindFlow — focus and productivity platform",
-    tag: "Web · Productivity · Flow state",
-    href: "https://grindflow.vercel.app/",
-    baseRotate: -1,
-    drift: 70,
-    driftDir: -1,
-    from: "left",
-  },
-];
+export default async function Home() {
+  const entries = await reader.collections.projects.all();
+  const projects: Project[] = entries
+    .filter((p) => p.entry.featured)
+    .sort((a, b) => (a.entry.order ?? 0) - (b.entry.order ?? 0))
+    .map((p, i) => {
+      const banner = p.entry.banner;
+      const src = banner
+        ? banner.startsWith("/")
+          ? banner
+          : `/banner/${banner}`
+        : "/banner/gitlore.png";
+      return {
+        src,
+        alt: p.entry.title,
+        tag: p.entry.tag,
+        href: p.entry.url || "#",
+        baseRotate: i % 2 === 0 ? -1 : 1,
+        from: i % 2 === 0 ? "left" : "right",
+      };
+    });
 
-export default function Home() {
   return (
     <SiteFrame>
       {/* ---- Hero: wide book spread, full-bleed so it can scale past the

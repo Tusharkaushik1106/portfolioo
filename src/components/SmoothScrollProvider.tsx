@@ -2,6 +2,7 @@
 
 import Lenis from "lenis";
 import { cancelFrame, frame } from "motion/react";
+import { usePathname } from "next/navigation";
 import { useEffect, type ReactNode } from "react";
 
 /**
@@ -11,7 +12,10 @@ import { useEffect, type ReactNode } from "react";
  * one-frame desync, so scroll-linked animation stays jitter-free and buttery.
  */
 export default function SmoothScrollProvider({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
   useEffect(() => {
+    // the Keystatic admin manages its own scrolling — don't hijack it
+    if (pathname?.startsWith("/keystatic")) return;
     const reduce =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -33,7 +37,7 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
       cancelFrame(update);
       lenis.destroy();
     };
-  }, []);
+  }, [pathname]);
 
   return <>{children}</>;
 }
