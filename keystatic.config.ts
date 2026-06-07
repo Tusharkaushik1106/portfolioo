@@ -10,11 +10,14 @@ import { config, fields, collection } from "@keystatic/core";
  *    the live /keystatic commits straight to GitHub → Vercel auto-deploys.
  */
 export default config({
-  // Git-based: edit at /keystatic locally, then commit + push → Vercel
-  // auto-deploys. (To edit on the LIVE site instead, switch to
-  // `{ kind: "github", repo: "Tusharkaushik1106/portfolioo" }` and set the
-  // KEYSTATIC_GITHUB_* env vars — the build needs those present for github mode.)
-  storage: { kind: "local" },
+  // Local files in dev (simple, no auth) — GitHub in production so the LIVE
+  // /keystatic lets you sign in and edit, committing straight to the repo →
+  // Vercel auto-deploys. The production build needs the KEYSTATIC_GITHUB_* env
+  // vars present (in .env.local locally, and in Vercel for the deploy).
+  storage:
+    process.env.NODE_ENV === "development"
+      ? { kind: "local" }
+      : { kind: "github", repo: "Tusharkaushik1106/portfolioo" },
 
   ui: {
     brand: { name: "Tushar's Studio" },
