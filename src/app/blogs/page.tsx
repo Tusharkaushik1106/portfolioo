@@ -55,46 +55,50 @@ export default async function Blogs() {
             </p>
           </Reveal>
         ) : (
-          <RevealGroup
-            stagger={0.1}
-            className="mx-auto grid max-w-3xl grid-cols-1 gap-6 sm:grid-cols-3"
-          >
-            {posts.map((p, i) => (
+          <RevealGroup stagger={0.1} className="mx-auto max-w-2xl space-y-6">
+            {posts.map((p) => (
               <RevealItem key={p.slug}>
-                <Link href={`/blogs/${p.slug}`} className="group block h-full">
+                <Link href={`/blogs/${p.slug}`} className="group block">
                   <Sticker
-                    rotate={i % 2 === 0 ? -1.5 : 1.5}
-                    tilt={8}
-                    lift={10}
-                    className="paper flex h-full flex-col overflow-hidden p-6"
+                    rotate={0}
+                    tilt={0}
+                    lift={6}
+                    className="paper overflow-hidden rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.35)] ring-1 ring-black/5"
                   >
                     {p.entry.coverImage ? (
-                      <div className="relative -mx-6 -mt-6 mb-4 aspect-[16/10] overflow-hidden bg-ink/10">
+                      <div className="relative aspect-[1718/916] w-full overflow-hidden bg-ink/10">
                         <Image
                           src={p.entry.coverImage}
-                          alt=""
+                          alt={p.entry.title}
                           fill
-                          sizes="(min-width: 640px) 300px, 90vw"
-                          className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                          sizes="(min-width: 672px) 672px, 100vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                         />
                       </div>
                     ) : null}
-                    {p.entry.tag ? (
-                      <span className="mb-4 inline-block w-fit rounded-full bg-coral/15 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wide text-coral">
-                        {p.entry.tag}
-                      </span>
-                    ) : null}
-                    <h2 className="font-serif text-lg leading-snug text-ink transition-colors group-hover:text-coral">
-                      {p.entry.title}
-                    </h2>
-                    {p.entry.summary ? (
-                      <p className="mt-2 text-xs leading-relaxed text-ink/65">
-                        {p.entry.summary}
-                      </p>
-                    ) : null}
-                    <span className="mt-auto pt-4 font-mono text-[10px] uppercase tracking-wide text-ink/45">
-                      {fmtDate(p.entry.publishedDate)}
-                    </span>
+                    <div className="flex flex-col p-6 sm:p-8">
+                      {p.entry.tag ? (
+                        <span className="mb-3 inline-block w-fit rounded-full bg-coral/15 px-3 py-1 font-mono text-[10px] uppercase tracking-wide text-coral">
+                          {p.entry.tag}
+                        </span>
+                      ) : null}
+                      <h2 className="font-serif text-2xl leading-snug text-ink transition-colors group-hover:text-coral sm:text-3xl">
+                        {p.entry.title}
+                      </h2>
+                      {p.entry.summary ? (
+                        <p className="mt-3 text-[15px] leading-relaxed text-ink/70">
+                          {p.entry.summary}
+                        </p>
+                      ) : null}
+                      <div className="mt-5 flex items-center justify-between">
+                        <span className="font-mono text-[10px] uppercase tracking-wide text-ink/45">
+                          {fmtDate(p.entry.publishedDate)}
+                        </span>
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-coral opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                          read →
+                        </span>
+                      </div>
+                    </div>
                   </Sticker>
                 </Link>
               </RevealItem>
