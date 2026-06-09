@@ -17,6 +17,7 @@ export default function ContactForm() {
       name: String(fd.get("name") || ""),
       email: String(fd.get("email") || ""),
       message: String(fd.get("message") || ""),
+      company: String(fd.get("company") || ""), // honeypot — stays empty for humans
     };
     setStatus("sending");
     setError("");
@@ -86,6 +87,15 @@ export default function ContactForm() {
               animate={{ opacity: 1 }}
               className="mt-6 space-y-5"
             >
+              {/* honeypot — hidden from people, irresistible to bots */}
+              <input
+                type="text"
+                name="company"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute left-[-9999px] h-0 w-0 opacity-0"
+              />
               <Field label="your name">
                 <input
                   name="name"

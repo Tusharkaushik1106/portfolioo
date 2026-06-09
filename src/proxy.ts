@@ -1,5 +1,14 @@
+import { createHash, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+
+// Constant-time string compare (hash first so differing lengths don't leak and
+// timingSafeEqual gets equal-length buffers).
+function safeEqual(a: string, b: string) {
+  const ha = createHash("sha256").update(a).digest();
+  const hb = createHash("sha256").update(b).digest();
+  return timingSafeEqual(ha, hb);
+}
 
 /**
  * Locks the Keystatic admin UI (/keystatic) behind HTTP Basic Auth.
@@ -35,7 +44,9 @@ export function proxy(request: NextRequest) {
     const sep = decoded.indexOf(":");
     const u = decoded.slice(0, sep);
     const p = decoded.slice(sep + 1);
-    if (u === user && p === pass) return NextResponse.next();
+    // Evaluate both sides every time so a wrong username can't short-circuit.
+    const ok = safeEqual(u, user) && safeEqual(p, pass);
+    if (ok) return NextResponse.next();
   }
 
   return new NextResponse("Authentication required.", {
