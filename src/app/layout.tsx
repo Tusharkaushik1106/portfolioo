@@ -12,7 +12,6 @@ import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import ScrollProgress from "@/components/ScrollProgress";
 import ClickBurst from "@/components/ClickBurst";
-import Loader from "@/components/Loader";
 
 // Body / UI typeface
 const dmSans = DM_Sans({
@@ -85,7 +84,6 @@ export default function RootLayout({
       className={`${dmSans.variable} ${jetBrainsMono.variable} ${averia.variable} ${gochi.variable} ${lilita.variable} ${dancing.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-ink text-paper">
-        <Loader />
         <SmoothScrollProvider>
           <ScrollProgress />
           {children}
