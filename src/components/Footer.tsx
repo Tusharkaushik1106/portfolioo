@@ -1,9 +1,12 @@
 import Reveal from "./Reveal";
+import { RESUME_VIEW_URL, RESUME_DOWNLOAD_URL } from "./ResumeLinks";
 
 const socials = [
   { label: "Email",    href: "mailto:k.tushar1106@gmail.com" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/tushar1106/" },
   { label: "GitHub",   href: "https://github.com/TusharKaushik1106" },
+  { label: "View résumé ↗",  href: RESUME_VIEW_URL },
+  { label: "Download résumé ↓", href: RESUME_DOWNLOAD_URL },
 ];
 
 /** Postcard-style footer: left "message" half, right "address + stamp" half. */

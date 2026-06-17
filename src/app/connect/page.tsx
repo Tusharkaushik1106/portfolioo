@@ -2,6 +2,7 @@ import Image from "next/image";
 import SiteFrame from "@/components/SiteFrame";
 import Reveal from "@/components/Reveal";
 import ContactForm from "@/components/ContactForm";
+import ResumeLinks from "@/components/ResumeLinks";
 
 const socials = [
   { label: "Email", value: "k.tushar1106@gmail.com", href: "mailto:k.tushar1106@gmail.com", icon: "/socials/email.png" },
@@ -59,6 +60,16 @@ export default function Connect() {
                 </span>
               </a>
             ))}
+          </div>
+        </Reveal>
+
+        {/* résumé */}
+        <Reveal>
+          <div className="mx-auto mt-8 flex max-w-lg flex-col items-center border-t border-paper/10 pt-8">
+            <span className="mb-3 font-mono text-[10px] uppercase tracking-widest text-paper/40">
+              or grab my résumé
+            </span>
+            <ResumeLinks />
           </div>
         </Reveal>
       </section>

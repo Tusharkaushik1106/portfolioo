@@ -2,6 +2,7 @@ import Image from "next/image";
 import SiteFrame from "@/components/SiteFrame";
 import Reveal, { RevealGroup, RevealItem } from "@/components/Reveal";
 import Sticker from "@/components/Sticker";
+import ResumeLinks from "@/components/ResumeLinks";
 
 const alsoList = [
   "AI systems",
@@ -141,6 +142,16 @@ export default function About() {
             <WashiTape className="-right-4 -top-2 rotate-[14deg]" />
             {/* wax-seal stamp */}
             <Seal className="absolute -right-5 top-16 z-30 size-20 -rotate-12 sm:-right-8" />
+          </div>
+        </Reveal>
+
+        {/* ---- Résumé CTA -------------------------------------------- */}
+        <Reveal>
+          <div className="mx-auto mt-12 flex max-w-3xl flex-col items-center">
+            <span className="mb-3 -rotate-2 font-hand text-xl text-paper/70">
+              want the full story? ✦
+            </span>
+            <ResumeLinks />
           </div>
         </Reveal>
       </section>

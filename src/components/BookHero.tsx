@@ -27,12 +27,23 @@ const REVEALED = OPEN + 1.0; // cover fully out of the way
 const coverVariants = {
   closed: { rotateX: 0, opacity: 1 },
   open: {
-    rotateX: -118,
-    opacity: [1, 1, 0],
+    rotateX: -128,
+    // stay fully opaque through most of the swing, then fall away as the cover
+    // tips back past vertical — reads as a real cover lifting, not a crossfade
+    opacity: [1, 1, 1, 0],
     transition: {
-      rotateX: { duration: 0.95, ease: [0.66, 0, 0.2, 1] as const, delay: OPEN },
-      opacity: { duration: 0.95, times: [0, 0.7, 1], delay: OPEN },
+      rotateX: { duration: 1.15, ease: [0.7, 0, 0.16, 1] as const, delay: OPEN },
+      opacity: { duration: 1.15, times: [0, 0.6, 0.84, 1], delay: OPEN },
     },
+  },
+};
+
+// the shadow the lifting cover casts onto the page beneath it
+const shadowVariants = {
+  closed: { opacity: 0 },
+  open: {
+    opacity: [0, 0.55, 0.4, 0],
+    transition: { duration: 1.15, times: [0, 0.35, 0.7, 1], delay: OPEN },
   },
 };
 
@@ -77,7 +88,24 @@ export default function BookHero() {
           {LIVE_TEXT && <AnimatedHeroText />}
         </Sticker>
 
-        {/* cream cover that flips up over the top binding to reveal the art */}
+        {/* shadow the lifting cover casts on the page (sweeps off as it opens) */}
+        <motion.div
+          aria-hidden
+          initial="closed"
+          animate="open"
+          variants={shadowVariants}
+          className="pointer-events-none absolute inset-0 z-20 rounded-2xl"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(20,12,6,0.85) 0%, rgba(20,12,6,0.35) 45%, rgba(20,12,6,0) 80%)",
+          }}
+        />
+
+        {/* designed cover that flips up over the top binding to reveal the art.
+            The artwork (binding, florals, mountains, seal) is baked into
+            /herosection/cover.png — object-fill keeps every edge element flush
+            (cover is 3:2, the book frame is ~1.38:1, so we squeeze ~8% width,
+            which is imperceptible on this art and avoids cropping the binding). */}
         <motion.div
           aria-hidden
           initial="closed"
@@ -89,30 +117,26 @@ export default function BookHero() {
             backfaceVisibility: "hidden",
             zIndex: 40,
           }}
-          className="paper absolute inset-0 overflow-hidden rounded-xl shadow-2xl ring-4 ring-coral"
+          className="absolute inset-0 overflow-hidden rounded-2xl shadow-2xl"
         >
-          {/* spiral binding along the top */}
+          <Image
+            src="/herosection/cover.png"
+            alt=""
+            fill
+            priority
+            quality={95}
+            sizes="(min-width: 1024px) 64vw, (min-width: 640px) 88vw, 100vw"
+            className="object-fill"
+          />
+          {/* glossy sheen sweep across the cover as it lifts */}
           <span
             aria-hidden
-            className="absolute inset-x-6 top-2.5 h-3.5"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 8px 7px, var(--ink) 4px, transparent 5px)",
-              backgroundSize: "30px 14px",
-              backgroundRepeat: "repeat-x",
-            }}
-          />
-          {/* sheen sweep */}
-          <span
             className="pointer-events-none absolute inset-0"
             style={{
               background:
-                "linear-gradient(115deg, rgba(255,255,255,0.25), rgba(255,255,255,0) 45%)",
+                "linear-gradient(115deg, rgba(255,255,255,0.30), rgba(255,255,255,0) 42%)",
             }}
           />
-          <div className="flex h-full w-full items-center justify-center">
-            <p className="font-hand text-4xl text-coral/80">my notebook ✦</p>
-          </div>
         </motion.div>
 
         {/* attached note card at top-right — drops in after the book opens */}
