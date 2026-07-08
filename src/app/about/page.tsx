@@ -77,7 +77,7 @@ export default function About() {
               </div>
 
               <p className="mt-7 font-hand text-[20px] leading-snug text-ink/80">
-                Currently @ PrepAiro · previously @ DRDO
+                prev. @prepairo, @koncepts · previously @ DRDO
               </p>
 
               <div className="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-[1fr_auto]">

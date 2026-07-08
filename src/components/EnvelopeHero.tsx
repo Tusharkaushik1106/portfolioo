@@ -131,10 +131,17 @@ export default function EnvelopeHero() {
       >
         <span className="tape -top-2 left-1/2 h-3 w-12 -translate-x-1/2 rotate-2" />
         <p className="font-hand text-[15px] leading-snug text-ink">
-          Product Dev Intern
+          prev. @prepairo
           <br />
-          @ PrepAiro →
+          @koncepts
         </p>
+        <div className="mt-3 border-t border-ink/5 pt-2 flex items-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-wider text-green">
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green"></span>
+          </span>
+          open to work
+        </div>
       </motion.div>
     </div>
   );
